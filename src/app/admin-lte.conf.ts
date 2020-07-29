@@ -1,0 +1,24 @@
+export const adminLteConf = {
+  skin: 'red',
+  // isSidebarLeftCollapsed: false,
+  // isSidebarLeftExpandOnOver: false,
+  // isSidebarLeftMouseOver: false,
+  // isSidebarLeftMini: true,
+  // sidebarRightSkin: 'dark',
+  // isSidebarRightCollapsed: true,
+  // isSidebarRightOverContent: true,
+  layout: 'fixed',
+  sidebarLeftMenu: [
+    { label: 'MAIN NAVIGATION', separator: true },
+    { label: 'Auction Excel Upload', route: '/auction/upload', iconClasses: 'fa fa-gavel' },
+    { label: 'Auction Alert', route: '/auction/alert', iconClasses: 'fa fa-envelope' },
+    { label: 'View Auction Notice', route: '/auction/view', iconClasses: 'fa fa-table' },
+    { label: 'Upload Notice', route: '/upload-notice', iconClasses: 'fa fa-road' },
+    { label: 'Notification', route: '/notification', iconClasses: 'fa fa-tasks' },
+    // { label: 'Add Society', route: '/society', iconClasses: 'fa fa-home' },
+
+
+    // { label: 'Users, iconClasses: 'fa fa-user' },
+  ]
+
+};

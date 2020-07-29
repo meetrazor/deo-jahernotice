@@ -1,0 +1,151 @@
+<app-loading *ngIf="showLoadingIndicator"></app-loading>
+<mk-box>
+    <mk-box-header>View Auction Notice</mk-box-header>
+    <mk-box-content>
+        <div class="row">
+            <div class="col-lg-6">
+                Publish Date :
+                <kendo-datepicker 
+                    [(value)]="value"
+                    [format]="'dd/MM/yyyy'"
+                    (valueChange)="onDateChange($event)"
+                >
+            </kendo-datepicker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <kendo-grid [kendoGridBinding]="gridData" [pageSize]="pageSize"
+                [skip]="skip" [pageable]="true" [resizable]="true" [height]="500">
+            
+                    <kendo-grid-column field="PublishDate" title="Publish Date" width="120"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{ dataItem.PublishDate | date:'dd/MM/yyyy' }}
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="NotificationDate" title="Notification Date" width="150"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{ dataItem.NotificationDate | date:'dd/MM/yyyy' }}
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="DistrictName" title="District" width="120"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{ dataItem.DistrictName | titlecase }}
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="TalukaName" title="Taluka" width="120"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{ dataItem.TalukaName | titlecase }}
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="VillageName" title="Village" width="120"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{ dataItem.VillageName | titlecase }}
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="SurveyNo" title="Survey No" width="120"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="TPNo" title="TP No" width="120"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="FPNo" title="FP No" width="120"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="SocietyName" title="Society" width="300"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="NoticeType" title="Type" width="100"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                    </kendo-grid-column>
+
+                    <kendo-grid-column field="ClientNames" title="Client Name" width="500"
+                    [headerStyle]="{'font-weight': 'bold'}">
+                    </kendo-grid-column>
+
+                    
+
+        <kendo-grid-column field="NewspaperName" title="Notification Source" width="200"
+        [headerStyle]="{'font-weight': 'bold'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.NewspaperName | titlecase }}
+        </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="ReservePrice" title="Reserve Price" width="200"
+        [headerStyle]="{'font-weight': 'bold'}">
+    </kendo-grid-column>
+
+    <kendo-grid-column field="OutstandingWithInterest" title="Outstanding Amount" width="200"
+        [headerStyle]="{'font-weight': 'bold'}">
+    </kendo-grid-column>
+
+    <kendo-grid-column field="BidSubmitDate" title="Submit Bid Date" width="120" [headerStyle]="{'font-weight': 'bold'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.BidSubmitDate | date:'dd/MM/yyyy' }}
+        </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="eAuctionDate" title="Date of E-Auction" width="120" [headerStyle]="{'font-weight': 'bold'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.eAuctionDate | date:'dd/MM/yyyy' }}
+        </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="DemandNoticeDate" title="Date of Demand" width="120" [headerStyle]="{'font-weight': 'bold'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.DemandNoticeDate | date:'dd/MM/yyyy' }}
+        </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="PropertyPossesionDate" title="Date of Possesion" width="120" [headerStyle]="{'font-weight': 'bold'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.PropertyPossesionDate | date:'dd/MM/yyyy' }}
+        </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="Imagepath" title="Image path" width="120" [headerStyle]="{'font-weight': 'bold', 'text-align' : 'center', 'cursor' : 'pointer'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <a href="{{ dataItem.Imagepath }}" target="_blank">View</a>
+        </ng-template>
+    </kendo-grid-column>
+
+                    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+                        <div style="width: 100%;display: inline-flex;">
+                            <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                            <kendo-pager-numeric-buttons [buttonCount]="8"></kendo-pager-numeric-buttons>
+                            <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                        </div>
+                        <kendo-pager-page-sizes [pageSizes]='[10,25,50,100]' style="font-size: 17px;"></kendo-pager-page-sizes>
+                        <ul class="item-container" style="width: -webkit-fill-available;list-style: none;">
+                            <li class="pager-Item">
+                                <kendo-pager-info>
+                                </kendo-pager-info>
+                            </li>
+                        </ul>
+                    </ng-template>
+
+                </kendo-grid>
+
+
+            </div>
+        </div>
+    </mk-box-content>
+</mk-box>

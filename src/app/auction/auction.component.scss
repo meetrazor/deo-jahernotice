@@ -1,0 +1,12 @@
+button {
+    cursor: pointer;
+}
+button[disabled] {
+    cursor: no-drop;
+    background-color: #e6a69e;
+}
+.alert-danger{
+    background-color: #f2dede !important;
+    color: #a94442 !important;
+    border-color: #ebccd1 !important;
+}

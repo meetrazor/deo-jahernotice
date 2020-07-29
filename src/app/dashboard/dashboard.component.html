@@ -1,0 +1,623 @@
+<section class="main p-3" *ngIf="!loading || !id">
+  <div class="">
+    <div class="row">
+      <div class="col-md-6" *ngIf="id">
+        <div class="form-group hr p-4 pb-5" *ngIf="!image">
+          <label for="image">Select Image file*</label>
+          <input
+            type="file"
+            id="image"
+            #selectedImages
+            class="form-control"
+            accept="images/*"
+            (change)="onUpdateFile($event)"
+          />
+        </div>
+        <div
+          class="form-group text-center zoom-img"
+          *ngIf="image"
+          style="max-height: 90vh; overflow: scroll;"
+        >
+          <button class="close" (click)="removeImages()">
+            &times;
+          </button>
+          <pinch-zoom [backgroundColor]="pinchzoom" [zoomControlScale]="2">
+            <img
+              (error)="removeImages()"
+              class="img-thumbnail mt-2"
+              [src]="image"
+              style="max-height: 80vh;"
+          /></pinch-zoom>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="!id">
+        <div class="form-group hr p-4 pb-5" *ngIf="!URLs.length">
+          <label for="image">Select Image file*</label>
+          <input
+            type="file"
+            id="image"
+            #selectedImages
+            class="form-control"
+            webkitdirectory
+            accept="images/*"
+            (change)="onSelectFile($event)"
+            multiple
+          />
+        </div>
+        <div
+          class="form-group text-center zoom-img"
+          *ngIf="URLs.length > 0"
+          style="max-height: 90vh; overflow: scroll;"
+        >
+          <div>
+            <input
+              name="imageUpload"
+              type="number"
+              min="1"
+              [max]="URLs.length"
+              [(ngModel)]="imageNumber"
+              (change)="imageNumberChange()"
+              class="index"
+            />
+          </div>
+          <div>
+            <button
+              *ngIf="imageGallery.length - 1 > index"
+              class="close"
+              (click)="next()"
+            >
+              Next <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+
+            <button
+              *ngIf="index > 0"
+              class="close"
+              style="float: left;"
+              (click)="privious()"
+            >
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> Previous
+            </button>
+          </div>
+          <br />
+          <div>
+            <pinch-zoom [backgroundColor]="pinchzoom" [zoomControlScale]="2">
+              <img
+                class="img-thumbnail mt-2"
+                [src]="URLs[index]"
+                style="max-height: 80vh;"
+              />
+            </pinch-zoom>
+          </div>
+        </div>
+      </div>
+      <form #Form="ngForm">
+        <div class="col-md-6 hr p-5">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Published Date*</label>
+                    <input
+                      type="date"
+                      name="pdate"
+                      #pdate="ngModel"
+                      class="form-control"
+                      [(ngModel)]="uploadObject.publish_date"
+                      #publishdate="ngModel"
+                      required
+                    />
+                    <span
+                      class="text-danger"
+                      *ngIf="
+                        (publishdate.touched || Form.submitted) &&
+                        publishdate.errors?.required
+                      "
+                    >
+                      Published Date is required
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Notification Date*</label>
+                    <input
+                      type="date"
+                      name="ndate"
+                      #ndate="ngModel"
+                      class="form-control"
+                      [(ngModel)]="uploadObject.notification_date"
+                      #Notificationdate="ngModel"
+                      required
+                    />
+                    <span
+                      class="text-danger"
+                      *ngIf="
+                        (Notificationdate.touched || Form.submitted) &&
+                        Notificationdate.errors?.required
+                      "
+                    >
+                      Notification Date is required
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>District*</label>
+                    <select
+                      class="form-control"
+                      [(ngModel)]="district2"
+                      name="dist"
+                      (click)="
+                        tempdistrict = '';
+                        temptaluka = '';
+                        tempvillage = '';
+                        tempsociety = ''
+                      "
+                      (change)="selectDistrict($event.target.value)"
+                      #district="ngModel"
+                    >
+                      <option *ngIf="!tempdistrict" value="" disabled
+                        >--select--</option
+                      >
+                      <option *ngIf="tempdistrict" value="" disabled>{{
+                        tempdistrict
+                      }}</option>
+                      <option
+                        *ngFor="let district of District"
+                        value="{{ district | json }}"
+                      >
+                        {{ district.districtname }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Taluka*</label>
+                    <select
+                      class="form-control"
+                      name="taluka"
+                      [(ngModel)]="taluka2"
+                      (click)="
+                        tempdistrict = '';
+                        temptaluka = '';
+                        tempvillage = '';
+                        tempsociety = ''
+                      "
+                      (change)="selectTaluka($event.target.value)"
+                      required
+                      ><option *ngIf="!temptaluka" value="" disabled
+                        >--select--</option
+                      >
+                      <option *ngIf="temptaluka" value="" disabled>{{
+                        temptaluka
+                      }}</option>
+                      <option
+                        *ngFor="let Taluka of taluka"
+                        value="{{ Taluka | json }}"
+                      >
+                        {{ Taluka.blockname }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Village*</label>
+                    <select
+                      class="form-control"
+                      name="village"
+                      [(ngModel)]="village2"
+                      (change)="selectVillage($event.target.value)"
+                      (click)="
+                        tempdistrict = '';
+                        temptaluka = '';
+                        tempvillage = '';
+                        tempsociety = ''
+                      "
+                      required
+                      ><option *ngIf="!tempvillage" value="" disabled
+                        >--select--</option
+                      >
+                      <option *ngIf="tempvillage" value="" disabled>{{
+                        tempvillage
+                      }}</option>
+                      <option
+                        *ngFor="let Village of village"
+                        value="{{ Village | json }}"
+                      >
+                        {{ Village.villagename }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="Surveyno">Survey / Block No. </label>
+                    <input
+                      type="text"
+                      name="survey_plot"
+                      class="form-control"
+                      id="Surveyno"
+                      [(ngModel)]="uploadObject.survey_block_no"
+                      #survey="ngModel"
+                      pattern="^[^\W_]+(?:[\s.,'-][^\W_]+)*$"
+                    />
+                    <span
+                      class="text-danger"
+                      *ngIf="
+                        (survey.touched || Form.submitted) &&
+                        survey.errors?.pattern
+                      "
+                    >
+                      Survey Number is Invelid only Alphanumeric, Space, Comma,
+                      Dash and Dot Allowed
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <label for="tp">T P No.</label>
+                  <input
+                    type="text"
+                    name="tpno"
+                    #tpno="ngModel"
+                    class="form-control"
+                    id="tp"
+                    [(ngModel)]="uploadObject.tp_no"
+                    pattern="^[^\W_]+(?:[\s.,'-][^\W_]+)*$"
+                  />
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (tpno.touched || Form.submitted) && tpno.errors?.pattern
+                    "
+                  >
+                    T P Number is Invelid only Alphanumeric, Space, Comma, Dash
+                    and Dot Allowed
+                  </span>
+                </div>
+                <div class="col-sm-6">
+                  <label for="fp">F P No.</label>
+                  <input
+                    type="text"
+                    name="fpno"
+                    #fpno="ngModel"
+                    class="form-control"
+                    id="fp"
+                    [(ngModel)]="uploadObject.fp_no"
+                    pattern="^[^\W_]+(?:[\s.,'-][^\W_]+)*$"
+                  />
+                  <span
+                    class="text-danger"
+                    *ngIf="
+                      (fpno.touched || Form.submitted) && fpno.errors?.pattern
+                    "
+                  >
+                    F P Number is Invelid only Alphanumeric, Space, Comma, Dash
+                    and Dot Allowed
+                  </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Society/Appartment</label>
+                  <div class="row">
+                    <div class="col-md-10 col-sm-10">
+                      <div class="form-group">
+                        <select
+                          class="form-control"
+                          name="society"
+                          [(ngModel)]="uploadObject.society_appartment"
+                          (click)="
+                            tempdistrict = '';
+                            temptaluka = '';
+                            tempvillage = '';
+                            tempsociety = ''
+                          "
+                          ><option *ngIf="!tempsociety" value="" disabled
+                            >--select--</option
+                          >
+                          <option *ngIf="tempsociety" value="" disabled>{{
+                            tempsociety
+                          }}</option>
+                          <option
+                            *ngFor="let Society of societyAppartment"
+                            value="{{ Society.societyname }}"
+                          >
+                            {{ Society.societyname }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2 pl-0 pr-0">
+                      <div class="form-group text-center">
+                        <a
+                          title="Add New Society"
+                          (click)="newSociety = true"
+                          class="btn btn-primary form-control"
+                          ><i class="fa fa-plus" aria-hidden="true"></i
+                        ></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="plotno">Building No. / Plot no </label>
+                    <input
+                      type="text"
+                      name="building_plot"
+                      class="form-control"
+                      id="plotno"
+                      [(ngModel)]="uploadObject.building_plot"
+                      #plot="ngModel"
+                      pattern="^[^\W_]+(?:[\s.,'-][^\W_]+)*$"
+                    />
+                    <span
+                      class="text-danger"
+                      *ngIf="
+                        (fpno.touched || Form.submitted) && fpno.errors?.pattern
+                      "
+                    >
+                      Building / Plot Number is Invelid only Alphanumeric,
+                      Space, Comma, Dash and Dot Allowed
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Notification Source*</label>
+                    <select
+                      class="form-control"
+                      name="notificationsource"
+                      [(ngModel)]="source2"
+                      (change)="sourceSelect($event.target.value)"
+                      (click)="tempsource = ''"
+                      required
+                      ><option *ngIf="!tempsource" value="" disabled
+                        >--select--</option
+                      >
+                      <option *ngIf="tempsource" value="" disabled>{{
+                        tempsource
+                      }}</option>
+                      <option
+                        *ngFor="let newsPaper of newsPapers"
+                        value="{{ newsPaper | json }}"
+                      >
+                        {{ newsPaper.papername }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label>Notification By (Lawyer etc., )*</label>
+                  <div class="row">
+                    <div class="col-md-10 col-sm-10">
+                      <div class="form-group">
+                        <ng-autocomplete
+                          id="autocomp"
+                          style="width: inherit;"
+                          name="auto"
+                          [data]="lawyers"
+                          [searchKeyword]="keyword"
+                          placeHolder="Enter the Lawyer Name"
+                          (inputChanged)="onChangeSearch($event)"
+                          (selected)="selectEvent($event)"
+                          [itemTemplate]="itemTemplate"
+                          [notFoundTemplate]="notFoundTemplate"
+                          [(ngModel)]="law2"
+                          class="form-control p-0"
+                        >
+                        </ng-autocomplete>
+
+                        <ng-template #itemTemplate let-item class="">
+                          <a [innerHTML]="item.name"></a>
+                        </ng-template>
+
+                        <ng-template #notFoundTemplate let-notFound>
+                          <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2 pl-0 pr-0">
+                      <div class="form-group text-center">
+                        <a
+                          title="Add New Lawyer"
+                          (click)="newlawyer = true"
+                          class="btn btn-primary form-control"
+                          ><i class="fa fa-plus" aria-hidden="true"></i
+                        ></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div *ngIf="!id" class="col-md-6">
+                  <div class="form-group">
+                    <label>Edition*</label>
+                    <select
+                      class="form-control"
+                      name="selectedition"
+                      [(ngModel)]="uploadObject.selectedEdition"
+                      (change)="OnSelectEdition($event.target.value)"
+                      required
+                      ><option value="" disabled>--select--</option>
+                      <option
+                        *ngFor="let ed of edition"
+                        value="{{ ed.editioncode }}"
+                      >
+                        {{ ed.editionname }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- <div class="form-group">
+                  <label>Client Name*</label>
+                  <input
+                    type="text"
+                    name="clientname"
+                    class="form-control"
+                    placeholder="Client Name"
+                    #cname="ngModel"
+                    [(ngModel)]="uploadObject.client_name"
+                    required
+                  />
+                </div> -->
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Notice Type*</label>
+                    <select
+                      class="form-control"
+                      name="type"
+                      [(ngModel)]="by2"
+                      (change)="noticeSelect($event.target.value)"
+                      required
+                      ><option value="" disabled>--select--</option>
+                      <option
+                        *ngFor="let type of noticeTypes"
+                        value="{{ type.notice_type }}"
+                      >
+                        {{ type.notice_type }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Client Name*</label>
+                    <textarea
+                      name="clientname"
+                      class="form-control"
+                      placeholder="Client Names"
+                      [(ngModel)]="uploadObject.client_name"
+                      #cname="ngModel"
+                      cols="30"
+                      rows="5"
+                      required
+                      pattern="^[^\W_]+(?:[\s.,][^\W_]+)*$"
+                    ></textarea>
+                    <span
+                      class="text-danger"
+                      *ngIf="
+                        (cname.touched || Form.submitted) &&
+                        cname.errors?.pattern
+                      "
+                    >
+                      Client Name is Invelid only Alphanumeric, Space and Comma
+                      Allowed
+                    </span>
+                    <span
+                      class="text-danger"
+                      *ngIf="
+                        (cname.touched || Form.submitted) &&
+                        cname.errors?.required
+                      "
+                    >
+                      Client Name Cannot Leave Empty
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="!id">
+                  <div class="form-group">
+                    <label
+                      >Add Another Notice for Same Image?
+                      <input
+                        type="checkbox"
+                        name="same"
+                        id="same"
+                        [(ngModel)]="anotherNotice"
+                    /></label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4" *ngIf="!id">
+                  <div class="form-group text-center">
+                    <button
+                      class="btn btn-primary btn-block btn-flat mt-2"
+                      (click)="upload(Form)"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4" *ngIf="!id">
+                  <div class="form-group text-center">
+                    <button
+                      class="btn btn-primary btn-block btn-flat mt-2"
+                      (click)="reset()"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4" *ngIf="!id">
+                  <div class="form-group text-center">
+                    <button
+                      class="btn btn-primary btn-block btn-flat mt-2"
+                      (click)="removeImages()"
+                    >
+                      Remove all Images
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4" *ngIf="id">
+                  <div class="form-group text-center">
+                    <button
+                      class="btn btn-primary btn-block btn-flat mt-2"
+                      (click)="update()"
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-4" *ngIf="id">
+                  <div class="form-group text-center">
+                    <button
+                      class="btn btn-primary btn-block btn-flat mt-2"
+                      (click)="closePopUp('close')"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<kendo-dialog
+  title="Add New Society"
+  *ngIf="newSociety"
+  (close)="societyclose('cancel')"
+  [minWidth]="600"
+  [maxWidth]="600"
+  [maxHeight]="720"
+>
+  <app-society (sendMessage)="societyclose($event)"></app-society>
+</kendo-dialog>
+
+<kendo-dialog
+  title="Add New Lawyer"
+  *ngIf="newlawyer"
+  (close)="lawyerclose('cancel')"
+  [minWidth]="600"
+  [maxWidth]="600"
+  [maxHeight]="720"
+>
+  <app-lawyer (sendMessage)="lawyerclose($event)"></app-lawyer>
+</kendo-dialog>

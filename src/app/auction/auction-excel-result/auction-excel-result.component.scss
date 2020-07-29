@@ -1,0 +1,48 @@
+.messagetxt{
+    letter-spacing: 1px;
+    font-size: 15px;
+}
+#error1{
+    background-color: bisque;
+    border: 1px solid chocolate;
+    color: chocolate;
+}
+#errorbox1{
+    color: bisque;
+    border: 1px solid chocolate;
+    background-color: #d2691e;
+}
+#error2{
+    background-color: #edd5d5;
+    border: 1px solid #ac0303fa;
+    color: #ac0303fa;
+}
+#errorbox2{
+    color: #edd5d5;
+    border: 1px solid #ac0303fa;
+    background-color: #ac0303fa;
+}
+#error3{
+    background-color:#bee5eb;
+    border: 1px solid #0c5460;
+    color: #0c5460;
+}
+#errorbox3{
+    color:#bee5eb;
+    border: 1px solid #0c5460;
+    background-color: #0c5460;
+}
+#errornull{
+    background-color: greenyellow;
+    border: 1px solid green;
+    color: green;
+}
+#errorboxnull{
+    color: greenyellow;
+    border: 1px solid green;
+    background-color: green;
+}
+.errorbtn{
+    padding: 2px;
+    margin: 4px;
+}

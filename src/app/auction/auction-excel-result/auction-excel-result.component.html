@@ -1,0 +1,32 @@
+<div class="row mb-4" >
+    <div class="col-xs-1"></div>
+    <div class="col-xs-10">
+        <p class="pull-right" style="font-weight: bold;cursor: pointer;">
+            <span id="error1" class="errorbtn" (click)="onErrorBtn(1)">{{ errorLevel1.length + ' Required Field '}}</span>
+            <span> | </span>
+            <span id="error2" class="errorbtn" (click)="onErrorBtn(2)">{{ errorLevel2.length + ' Already exists '}}</span>
+            <span> | </span>
+            <span id="error3" class="errorbtn" (click)="onErrorBtn(3)">{{ errorLevel3.length + ' Invalid value' }}</span>
+            <span> | </span>
+            <span id="errornull" class="errorbtn" (click)="onErrorBtn(null)">{{ errorLevel4.length + ' Saved'}}</span>
+            <span> Out of {{ data.length }}</span>
+            <span> records</span></p>
+    </div>
+    <div class="col-xs-1"></div>
+</div>
+<div *ngFor="let d of data">
+    <div class="row mb-4" *ngIf="d.error_Level === errorNumber">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10" [id]="'error' + d.error_Level">
+            <div class="row">
+                <div class="col-xs-3 p-2 text-center" [id]="'errorbox' + d.error_Level">
+                   <b>Row No : {{ d.id + 1 }}</b>
+                </div>
+                <div class="col-xs-9 p-2">
+                    <span class="messagetxt">{{ d.message }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-1"></div>
+    </div>
+</div>
