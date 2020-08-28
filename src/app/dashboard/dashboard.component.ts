@@ -1,8 +1,9 @@
+import { ServicesService } from 'src/app/services.service';
 import { Subscriber } from 'rxjs';
 import { DatePipe } from '@angular/common';
-import { ServicesService } from './../services.service';
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  @Input() approvedNoticeId: number
   @Input() id: number;
   // tslint:disable-next-line: ban-types
   @Output() sendMessage: EventEmitter<String> = new EventEmitter<String>();
@@ -24,7 +26,7 @@ export class DashboardComponent implements OnInit {
   District: any;
   index = 0;
   newlawyer: boolean;
-  image: any = 'http://qa.api.jahernotice.com/server%20folder%20path/';
+  image: any;
   @ViewChild('selectedImages', { static: false }) selectedImages: ElementRef;
   taluka: any;
   village: any;
@@ -68,51 +70,97 @@ export class DashboardComponent implements OnInit {
   tempsociety: string;
   tempsource: string;
   tempdistrict: string;
-  constructor(private service: ServicesService, private toastr: ToastrService, private datePipe: DatePipe) { }
+  constructor(private service: ServicesService, private toastr: ToastrService, private datePipe: DatePipe,
+    // tslint:disable-next-line: align
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    if (this.id) {
+    this.image = this.service.GetBaseUrl() + 'server%20folder%20path/';
+    if ((this.id) || (this.approvedNoticeId)) {
       this.loading = true;
       this.getDistrict();
-      this.service.getOneNotice(this.id).subscribe((data) => {
-        this.reset();
-        // tslint:disable-next-line: prefer-const
-        for (let key of Object.keys(data[0])) {
-          if (data[0][key] === null) {
-            data[0][key] = '';
+      if (this.id) {
+        this.service.getOneNotice(this.id).subscribe((data) => {
+          this.reset();
+          // tslint:disable-next-line: prefer-const
+          for (let key of Object.keys(data[0])) {
+            if (data[0][key] === null) {
+              data[0][key] = '';
+            }
           }
-        }
-        this.uploadObject = {
-          publish_date: this.datePipe.transform(data[0].publish_date, 'yyyy-MM-dd'),
-          notification_date: this.datePipe.transform(data[0].notification_date, 'yyyy-MM-dd'),
-          district: null,
-          taluka: null,
-          village: null,
-          tp_no: data[0].tpno,
-          fp_no: data[0].fpno,
-          society_appartment: '',
-          building_plot: data[0].buildingno,
-          notification_source: data[0].notifysource,
-          notification_by: data[0].notifyby,
-          client_name: data[0].client_names,
-          notice_type: data[0].notice_type,
-          image: '',
-          survey_block_no: data[0].survey,
-          image_path: data[0].image_path,
-          selectedEdition: null,
-          issn: ''
-        };
-        this.image += data[0].image_path;
-        this.by2 = data[0].notice_type;
-        this.tempdistrict = data[0].district;
-        this.temptaluka = data[0].taluka;
-        this.law2 = data[0].notifyby;
-        this.tempsource = data[0].notifysource;
-        this.tempvillage = data[0].village;
-        this.loading = false;
-        this.tempsociety = data[0].society;
-      });
 
+          this.uploadObject = {
+            publish_date: this.datePipe.transform(data[0].publish_date, 'yyyy-MM-dd'),
+            notification_date: this.datePipe.transform(data[0].notification_date, 'yyyy-MM-dd'),
+            district: null,
+            taluka: null,
+            village: null,
+            tp_no: data[0].tpno,
+            fp_no: data[0].fpno,
+            society_appartment: '',
+            building_plot: data[0].buildingno,
+            notification_source: data[0].notifysource,
+            notification_by: data[0].notifyby,
+            client_name: data[0].client_names,
+            notice_type: data[0].notice_type,
+            image: '',
+            survey_block_no: data[0].survey,
+            image_path: data[0].image_path,
+            selectedEdition: data[0].editioncode,
+            issn: ''
+          };
+          this.image += data[0].image_path;
+          this.by2 = data[0].notice_type;
+          this.tempdistrict = data[0].district;
+          this.temptaluka = data[0].taluka;
+          this.law2 = data[0].notifyby;
+          this.tempsource = data[0].notifysource;
+          this.tempvillage = data[0].village;
+          this.loading = false;
+          this.tempsociety = data[0].society;
+        });
+      } else if (this.approvedNoticeId) {
+        this.service.GetOneApprovedNotice(this.approvedNoticeId).subscribe((data) => {
+          this.reset();
+          this.loading = true;
+          // tslint:disable-next-line: prefer-const
+          for (let key of Object.keys(data.data[0])) {
+            if (data.data[0][key] === null) {
+              data.data[0][key] = '';
+            }
+          }
+
+          this.uploadObject = {
+            publish_date: this.datePipe.transform(data.data[0].publish_date, 'yyyy-MM-dd'),
+            notification_date: this.datePipe.transform(data.data[0].notification_date, 'yyyy-MM-dd'),
+            district: null,
+            taluka: null,
+            village: null,
+            tp_no: data.data[0].tpno,
+            fp_no: data.data[0].fpno,
+            society_appartment: '',
+            building_plot: data.data[0].buildingno,
+            notification_source: data.data[0].notifysource,
+            notification_by: data.data[0].notifyby,
+            client_name: data.data[0].client_names,
+            notice_type: data.data[0].notice_type,
+            image: '',
+            survey_block_no: data.data[0].survey,
+            image_path: data.data[0].image_path,
+            selectedEdition: data.data[0].editioncode,
+            issn: ''
+          };
+          this.image += data.data[0].image_path;
+          this.by2 = data.data[0].notice_type;
+          this.tempdistrict = data.data[0].district;
+          this.temptaluka = data.data[0].taluka;
+          this.law2 = data.data[0].notifyby;
+          this.tempsource = data.data[0].notifysource;
+          this.tempvillage = data.data[0].village;
+          this.tempsociety = data.data[0].society;
+          this.loading = false;
+        });
+      }
     } else {
       this.reset();
       this.getDistrict();
@@ -374,14 +422,25 @@ export class DashboardComponent implements OnInit {
     }
     // tslint:disable-next-line: max-line-length
     if (((this.uploadObject.image) || (this.image)) && (this.uploadObject.client_name) && (this.uploadObject.district) && (this.uploadObject.image_path) && (this.uploadObject.notice_type) && (this.uploadObject.notification_by) && (this.uploadObject.notification_date) && (this.uploadObject.notification_source) && (this.uploadObject.publish_date) && (this.uploadObject.taluka) && (this.uploadObject.village)) {
-      this.service.updateNotice(this.uploadObject, this.id).subscribe((res) => {
-        if (res.Message === 'Data Succesfully updated') {
-          this.toastr.success(res.message, 'Success');
-          this.closePopUp('refresh');
-        } else {
-          this.toastr.error('Error');
-        }
-      });
+      if (this.id) {
+        this.service.updateNotice(this.uploadObject, this.id).subscribe((res) => {
+          if (res.Message === 'Data Succesfully updated') {
+            this.toastr.success(res.message, 'Success');
+            this.closePopUp('refresh');
+          } else {
+            this.toastr.error('Error');
+          }
+        });
+      } else if (this.approvedNoticeId) {
+        this.service.updateApprovedNotice(this.uploadObject, this.approvedNoticeId).subscribe((res) => {
+          if (res.message === 'Notice successfully Add to UnApproved Queue') {
+            this.toastr.success(res.message, 'Success');
+            this.closePopUp('refresh');
+          } else {
+            this.toastr.error('Error');
+          }
+        });
+      }
     } else {
       this.toastr.error('All (*) mark fileds are mandatory', 'Error');
     }

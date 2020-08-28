@@ -1,0 +1,225 @@
+<app-loading *ngIf="showLoadingIndicator"></app-loading>
+<mk-box>
+  <mk-box-header>View Approved Notice</mk-box-header>
+  <mk-box-content>
+    <div class="row">
+      <div class="col-lg-12 mt-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <kendo-grid
+          (cellClick)="onSelect($event)"
+          [pageSize]="pageSize"
+          [skip]="skip"
+          [pageable]="true"
+          [sortable]="true"
+          id="grid"
+          (pageChange)="pageChange($event)"
+          (dataStateChange)="dataStateChange($event)"
+          (sortChange)="sortChange($event)"
+          (filterChange)="filterChange($event)"
+          [data]="gridData"
+          [pageSize]="pageSize"
+          [skip]="skip"
+          [pageable]="true"
+          [resizable]="true"
+          [height]="'80%'"
+          [filterable]="false"
+        >
+          <kendo-grid-column
+            [filterable]="true"
+            [filter]="filter"
+            field="publish_date"
+            (mouseover)="FilerField('publish_date')"
+            title="Publish Date"
+            width="200"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="notification_date"
+            title="Notification Date"
+            width="150"
+            (mouseover)="FilerField('notification_date')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="district"
+            title="District"
+            width="120"
+            (mouseover)="FilerField('district')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="taluka"
+            title="Taluka"
+            width="120"
+            (mouseover)="FilerField('taluka')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="village"
+            title="Village"
+            width="120"
+            (mouseover)="FilerField('village')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="survey"
+            title="Survey No"
+            (mouseover)="FilerField('survey')"
+            width="120"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="tpno"
+            title="TP No"
+            width="120"
+            (mouseover)="FilerField('tpno')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="fpno"
+            title="FP No"
+            width="120"
+            (mouseover)="FilerField('fpno')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="society"
+            title="Society"
+            width="300"
+            (mouseover)="FilerField('society')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="notice_type"
+            title="Type"
+            width="100"
+            (mouseover)="FilerField('notice_type')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="client_names"
+            title="Client Name"
+            width="500"
+            (mouseover)="FilerField('client_names')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="notifysource"
+            title="Notification Source"
+            width="200"
+            (mouseover)="FilerField('notifysource')"
+            [headerStyle]="{ 'font-weight': 'bold' }"
+          >
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="Imagepath"
+            title="Image path"
+            width="120"
+            [sortable]="false"
+            [headerStyle]="{
+              'font-weight': 'bold',
+              'text-align': 'center',
+              cursor: 'pointer'
+            }"
+            [filterable]="false"
+          >
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <a href="{{ imageBase + dataItem.image_path }}" target="_blank"
+                ><img
+                  src="{{ imageBase + dataItem.image_path }}"
+                  height="100"
+                  width="50"
+                />
+              </a>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column
+            field="Action"
+            title="Action"
+            width="120"
+            [sortable]="false"
+            [headerStyle]="{
+              'font-weight': 'bold',
+              'text-align': 'center',
+              cursor: 'pointer'
+            }"
+            [filterable]="false"
+          >
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <button
+                class="btn btn-primary"
+                id="{{ dataItem.id }}"
+                (click)="editApprovedNotice($event.target.id)"
+              >
+                Edit
+              </button>
+            </ng-template>
+          </kendo-grid-column>
+
+          <ng-template
+            kendoPagerTemplate
+            let-totalPages="totalPages"
+            let-currentPage="currentPage"
+          >
+            <div style="width: 100%; display: inline-flex;">
+              <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+              <kendo-pager-numeric-buttons
+                [buttonCount]="8"
+              ></kendo-pager-numeric-buttons>
+              <kendo-pager-next-buttons></kendo-pager-next-buttons>
+            </div>
+            <kendo-pager-page-sizes
+              [pageSizes]="[10, 25, 50, 100]"
+              style="font-size: 17px;"
+            ></kendo-pager-page-sizes>
+            <ul
+              class="item-container"
+              style="width: -webkit-fill-available; list-style: none;"
+            >
+              <li class="pager-Item">
+                <kendo-pager-info> </kendo-pager-info>
+              </li>
+            </ul>
+          </ng-template>
+        </kendo-grid>
+        <kendo-dialog
+          *ngIf="edit"
+          (close)="editclose('cancel')"
+          [width]="'80%'"
+          [height]="'80%'"
+        >
+          <app-dashboard
+            [approvedNoticeId]="id"
+            (sendMessage)="editclose($event)"
+          ></app-dashboard>
+        </kendo-dialog>
+      </div>
+    </div>
+  </mk-box-content>
+</mk-box>

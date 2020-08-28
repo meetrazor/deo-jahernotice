@@ -5,20 +5,16 @@ import { Router } from '@angular/router';
   selector: 'app-sidebar-left-inner',
   templateUrl: './sidebar-left-inner.component.html'
 })
-export class SidebarLeftInnerComponent implements OnInit  {
-  school = false;
-  name = '';
-  schoolId = '';
+export class SidebarLeftInnerComponent implements OnInit {
+  currentUser: any;
   constructor(
     private router: Router,
   ) {
   }
 
   ngOnInit() {
-    this.school = true;
-    this.name = 'meet';
-    this.schoolId = '12';
-    // const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    this.currentUser = JSON.parse(localStorage.getItem('user_type'));
     // this.name = currentUser.admin_user_name;
     // this.schoolId = currentUser.school_id;
     // if (currentUser.school_id > 0) {

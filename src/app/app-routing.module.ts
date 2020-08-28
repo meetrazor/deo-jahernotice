@@ -1,3 +1,4 @@
+import { ApprovedNoticeComponent } from './approved-notice/approved-notice.component';
 import { SocietyComponent } from './addnew/society/society.component';
 import { NotificationComponent } from './notification/notification.component';
 import { NgModule } from '@angular/core';
@@ -13,21 +14,21 @@ import { AuctionViewResolver } from './auction/view-auction/auction-view.resolve
 
 
 const routes: Routes = [
-  // {
-  // path: 'login',
-  // data: {
-  //   customLayout: true,
-  // },
-  // children: [
-  //    {
-  //      path: '',
-  //      component: LoginComponent
-  //   }
-  //   ]
-  // },
+  {
+    path: 'login',
+    data: {
+      customLayout: true,
+    },
+    children: [
+      {
+        path: '',
+        component: LoginComponent
+      }
+    ]
+  },
   {
     path: '',
-    redirectTo: 'auction/upload',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -36,14 +37,15 @@ const routes: Routes = [
       customLayout: false,
     },
     component: DashboardComponent
+
   },
-  // {
-  //   path: 'alert/:id',
-  //   data: {
-  //     customLayout: false,
-  //   },
-  //   component: TemplateComponent
-  // },
+  {
+    path: 'alert/:id',
+    data: {
+      customLayout: false,
+    },
+    component: TemplateComponent
+  },
   {
     path: 'notification',
     data: {
@@ -51,13 +53,13 @@ const routes: Routes = [
     },
     component: NotificationComponent
   },
-  // {
-  //   path: 'society',
-  //   data: {
-  //     customLayout: false,
-  //   },
-  //   component: SocietyComponent
-  // },
+  {
+    path: 'society',
+    data: {
+      customLayout: false,
+    },
+    component: SocietyComponent
+  },
   {
     path: 'auction/upload',
     data: {
@@ -76,7 +78,16 @@ const routes: Routes = [
     path: 'auction/view',
     component: ViewAuctionComponent,
     resolve: { Auction: AuctionViewResolver }
-  }
+  },
+  {
+    path: 'approved',
+    data: {
+      customLayout: false,
+    },
+    component: ApprovedNoticeComponent
+
+  },
+
 ];
 
 @NgModule({

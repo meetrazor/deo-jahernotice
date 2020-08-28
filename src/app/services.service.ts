@@ -31,6 +31,7 @@ const newlawyer = `${apiUrl}/Lawyer`;
 const approve = `${apiUrl}/ApprovedNornalNotice`;
 const fulltaluka = `${apiUrl}/Taluka`;
 const edition = `${apiUrl}/Edition`;
+const approvedNotice = `${apiUrl}/ApprovedNornalNotice`;
 
 @Injectable({
   providedIn: 'root'
@@ -114,6 +115,7 @@ export class ServicesService {
     formData.append('notifyby', data.notification_by);
     formData.append('client_names', data.client_name);
     formData.append('notice_type', data.notice_type);
+    formData.append('editioncode', data.selectedEdition);
     if (data.image) {
       formData.append('original_image_path', data.image_path);
       formData.append('Image', data.image, data.image.name);
@@ -137,6 +139,11 @@ export class ServicesService {
     return this.http.get(fulltaluka + '?verified=1', httpOptions);
   }
 
+
+  getEdition(): any {
+    return this.http.get(edition, httpOptions);
+  }
+
   Postdata(url: string, data) {
     return this.http.post(`${baseurl}${url}`, data);
   }
@@ -144,8 +151,41 @@ export class ServicesService {
   Getdata(url: string) {
     return this.http.get(`${baseurl}${url}`);
   }
-  getEdition(): any {
-    return this.http.get(edition, httpOptions);
+  GetBaseUrl() {
+    return baseurl;
+  }
+  GetAllNormalNotice(): any {
+    return this.http.get(`${baseurl}api2/NornalNotice`, httpOptions);
+  }
+  GetApprovedNornalNotice(URL): any {
+    return this.http.get(approvedNotice + URL, httpOptions);
+  }
+  GetOneApprovedNotice(id): any {
+    return this.http.get(approvedNotice + '/' + id, httpOptions);
+  }
+
+  updateApprovedNotice(data, id): any {
+    const formData: FormData = new FormData();
+    formData.append('publish_date', data.publish_date);
+    formData.append('notification_date', data.notification_date);
+    formData.append('district', data.district);
+    formData.append('taluka', data.taluka);
+    formData.append('village', data.village);
+    formData.append('survey', data.survey_block_no);
+    formData.append('fpno', data.fp_no);
+    formData.append('tpno', data.tp_no);
+    formData.append('society', data.society_appartment);
+    formData.append('buildingno', data.building_plot);
+    formData.append('notifysource', data.notification_source);
+    formData.append('notifyby', data.notification_by);
+    formData.append('client_names', data.client_name);
+    formData.append('notice_type', data.notice_type);
+    formData.append('editioncode', data.selectedEdition);
+    if (data.image) {
+      formData.append('original_image_path', data.image_path);
+      formData.append('Image', data.image, data.image.name);
+    }
+    return this.http.put(approvedNotice + '/' + id, formData, httpFileUploadOptions);
   }
 }
 

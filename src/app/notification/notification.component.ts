@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { async } from '@angular/core/testing';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -16,7 +17,7 @@ export class NotificationComponent implements OnInit, AfterViewInit {
 
   constructor(
     private datepipe: DatePipe, private dialogService: DialogService,
-    private service: ServicesService, private toastr: ToastrService) { }
+    private service: ServicesService, private toastr: ToastrService, private router: Router) { }
   @ViewChild(DataTableDirective, { static: true })
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
@@ -28,8 +29,12 @@ export class NotificationComponent implements OnInit, AfterViewInit {
   id: any;
   status: any;
   ngOnInit() {
+    const user = localStorage.getItem('user_type');
+    if (user !== '2') {
+      this.router.navigate(['/']);
+    }
     this.dtOptions = {
-      ajax: { url: `http://qa.api.jahernotice.com/api2/NornalNotice`, dataSrc: '' }, responsive: true,
+      ajax: { url: this.service.GetBaseUrl() + `api2/NornalNotice`, dataSrc: '' }, responsive: true,
       columns: [
         {
           title: 'Sr No.', data: 'row', render: (data, type, row, meta) => {
@@ -75,7 +80,6 @@ export class NotificationComponent implements OnInit, AfterViewInit {
 
 
       rowCallback(row, data: any) {
-
         let deleteBtn = '';
         deleteBtn += '<a class="btn btn-danger deleteNotice m-1" title="Delete Notice" notice-id="' + data.content_temp_id + '">';
         deleteBtn += '<i class="fa fa-trash" aria-hidden="false" notice-id="' + data.content_temp_id + '"></i>';

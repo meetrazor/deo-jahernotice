@@ -28,13 +28,14 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ButtonGroupModule } from '@progress/kendo-angular-buttons';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { ViewAuctionComponent } from './auction/view-auction/view-auction.component';
+import { ApprovedNoticeComponent } from './approved-notice/approved-notice.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent, TemplateComponent, NotificationComponent,
-    SocietyComponent, LawyerComponent, AuctionComponent, LoadingComponent, AuctionExcelResultComponent, AuctionEmailComponent, ViewAuctionComponent
+    SocietyComponent, LawyerComponent, AuctionComponent, LoadingComponent, AuctionExcelResultComponent, AuctionEmailComponent, ViewAuctionComponent, ApprovedNoticeComponent
   ],
   imports: [
     BrowserModule, CoreModule, FormsModule, AutocompleteLibModule, DataTablesModule, DialogsModule, ButtonsModule, PinchZoomModule,

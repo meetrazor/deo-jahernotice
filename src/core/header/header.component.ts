@@ -13,10 +13,15 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const user = localStorage.getItem('user_type');
+    if (!user) {
+      this.logout();
+    }
   }
 
   logout() {
     this.router.navigate(['/login']);
+    localStorage.removeItem('user_type');
   }
 
 }

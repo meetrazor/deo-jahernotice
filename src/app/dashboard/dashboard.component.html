@@ -1,7 +1,7 @@
-<section class="main p-3" *ngIf="!loading || !id">
+<section class="main p-3" *ngIf="!loading">
   <div class="">
     <div class="row">
-      <div class="col-md-6" *ngIf="id">
+      <div class="col-md-6" *ngIf="id || approvedNoticeId">
         <div class="form-group hr p-4 pb-5" *ngIf="!image">
           <label for="image">Select Image file*</label>
           <input
@@ -30,7 +30,7 @@
           /></pinch-zoom>
         </div>
       </div>
-      <div class="col-md-6" *ngIf="!id">
+      <div class="col-md-6" *ngIf="!id && !approvedNoticeId">
         <div class="form-group hr p-4 pb-5" *ngIf="!URLs.length">
           <label for="image">Select Image file*</label>
           <input
@@ -443,7 +443,7 @@
                 </div>
               </div>
               <div class="row">
-                <div *ngIf="!id" class="col-md-6">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label>Edition*</label>
                     <select
@@ -528,7 +528,7 @@
                     </span>
                   </div>
                 </div>
-                <div class="col-md-12" *ngIf="!id">
+                <div class="col-md-12" *ngIf="!id && !approvedNoticeId">
                   <div class="form-group">
                     <label
                       >Add Another Notice for Same Image?
@@ -542,7 +542,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-4" *ngIf="!id">
+                <div class="col-md-4" *ngIf="!id && !approvedNoticeId">
                   <div class="form-group text-center">
                     <button
                       class="btn btn-primary btn-block btn-flat mt-2"
@@ -552,7 +552,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4" *ngIf="!id">
+                <div class="col-md-4" *ngIf="!id && !approvedNoticeId">
                   <div class="form-group text-center">
                     <button
                       class="btn btn-primary btn-block btn-flat mt-2"
@@ -562,7 +562,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4" *ngIf="!id">
+                <div class="col-md-4" *ngIf="!id && !approvedNoticeId">
                   <div class="form-group text-center">
                     <button
                       class="btn btn-primary btn-block btn-flat mt-2"
@@ -572,7 +572,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4" *ngIf="id">
+                <div class="col-md-4" *ngIf="id || approvedNoticeId">
                   <div class="form-group text-center">
                     <button
                       class="btn btn-primary btn-block btn-flat mt-2"
@@ -582,7 +582,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-4" *ngIf="id">
+                <div class="col-md-4" *ngIf="id || approvedNoticeId">
                   <div class="form-group text-center">
                     <button
                       class="btn btn-primary btn-block btn-flat mt-2"

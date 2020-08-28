@@ -1,4 +1,4 @@
-<!-- <style>
+<style>
   .schools a {
     display: block;
     padding: 12px 5px 12px 15px;
@@ -7,13 +7,13 @@
     padding-left: 12px;
   }
 </style>
-<div class="user-panel">
-  <div class="pull-left info" style="top: 30%">
+<!-- <div class="user-panel">
+  <div class="pull-left info" style="top: 30%;">
     <h1>{{ name }}</h1>
     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
   </div>
-</div>
-<div *ngIf="!school" class="row schools">
+</div> -->
+<!-- <div *ngIf="!school" class="row schools">
   <div class="col-xs-12">
     <a href="{{ '/register/school/' + schoolId }}"
       ><i class="fa fa-user"></i><span>School Profile</span></a
@@ -34,9 +34,22 @@
   <div class="col-xs-12">
     <a href="exam"><i class="fa fa-university"></i><span>Exam</span></a>
   </div>
-</div>
-<div *ngIf="school" class="row schools">
-  <div class="col-xs-12">
-    <a href="winners"><i class="fa fa-trophy"></i><span>Winners</span></a>
-  </div>
 </div> -->
+<div style="margin-left: 3px;">
+  <div *ngIf="currentUser == 2" class="row schools">
+    <div class="col-xs-12">
+      <a href="/notification"
+        ><i class="fa fa-tasks"></i><span>Notification</span></a
+      >
+    </div>
+  </div>
+</div>
+<div style="margin-left: 3px;">
+  <div *ngIf="currentUser == 2" class="row schools">
+    <div class="col-xs-12">
+      <a href="/approved"
+        ><i class="fa fa-id-card-o"></i><span>Approved Notice</span></a
+      >
+    </div>
+  </div>
+</div>
